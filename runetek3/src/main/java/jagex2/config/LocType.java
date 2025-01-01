@@ -392,14 +392,14 @@ public class LocType {
 				int groundY = (heightmapSW + heightmapSE + heightmapNE + heightmapNW) / 4;
 
 				for (@Pc(93) int i = 0; i < cached.vertexCount; i++) {
-					@Pc(100) int x = cached.vertexX[i];
-					@Pc(105) int z = cached.vertexZ[i];
+					@Pc(100) int x = cached.verticesX[i];
+					@Pc(105) int z = cached.verticesZ[i];
 
 					@Pc(117) int heightS = heightmapSW + (heightmapSE - heightmapSW) * (x + 64) / 128;
 					@Pc(129) int heightN = heightmapNW + (heightmapNE - heightmapNW) * (x + 64) / 128;
 					int y = heightS + (heightN - heightS) * (z + 64) / 128;
 
-					cached.vertexY[i] += y - groundY;
+					cached.verticesY[i] += y - groundY;
 				}
 
 				cached.calculateBoundsY();
@@ -476,14 +476,14 @@ public class LocType {
 			int groundY = (heightmapSW + heightmapSE + heightmapNE + heightmapNW) / 4;
 
 			for (@Pc(417) int i = 0; i < modified.vertexCount; i++) {
-				@Pc(424) int x = modified.vertexX[i];
-				@Pc(429) int z = modified.vertexZ[i];
+				@Pc(424) int x = modified.verticesX[i];
+				@Pc(429) int z = modified.verticesZ[i];
 
 				@Pc(441) int heightS = heightmapSW + (heightmapSE - heightmapSW) * (x + 64) / 128;
 				@Pc(453) int heightN = heightmapNW + (heightmapNE - heightmapNW) * (x + 64) / 128;
 				@Pc(465) int y = heightS + (heightN - heightS) * (z + 64) / 128;
 
-				modified.vertexY[i] += y - groundY;
+				modified.verticesY[i] += y - groundY;
 			}
 
 			modified.calculateBoundsY();

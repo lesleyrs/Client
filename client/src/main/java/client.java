@@ -3485,16 +3485,16 @@ public class client extends GameShell {
 		@Pc(37) int tmp;
 
 		if (invPitch != 0) {
-			sin = Model.sin[invPitch];
-			cos = Model.cos[invPitch];
+			sin = Model.sinTable[invPitch];
+			cos = Model.cosTable[invPitch];
 			tmp = z * cos - distance * sin >> 16;
 			y = z * sin + distance * cos >> 16;
 			z = tmp;
 		}
 
 		if (invYaw != 0) {
-			sin = Model.sin[invYaw];
-			cos = Model.cos[invYaw];
+			sin = Model.sinTable[invYaw];
+			cos = Model.cosTable[invYaw];
 			tmp = y * sin + x * cos >> 16;
 			y = y * cos - x * sin >> 16;
 			x = tmp;
@@ -7245,8 +7245,8 @@ public class client extends GameShell {
 			return;
 		}
 
-		@Pc(34) int sinAngle = Model.sin[angle];
-		@Pc(38) int cosAngle = Model.cos[angle];
+		@Pc(34) int sinAngle = Model.sinTable[angle];
+		@Pc(38) int cosAngle = Model.cosTable[angle];
 
 		sinAngle = sinAngle * 256 / (this.minimapZoom + 256);
 		cosAngle = cosAngle * 256 / (this.minimapZoom + 256);
@@ -7294,10 +7294,10 @@ public class client extends GameShell {
 		@Pc(38) int dy = y - this.cameraY;
 		@Pc(43) int dz = z - this.cameraZ;
 
-		@Pc(48) int sinPitch = Model.sin[this.cameraPitch];
-		@Pc(53) int cosPitch = Model.cos[this.cameraPitch];
-		@Pc(58) int sinYaw = Model.sin[this.cameraYaw];
-		@Pc(63) int cosYaw = Model.cos[this.cameraYaw];
+		@Pc(48) int sinPitch = Model.sinTable[this.cameraPitch];
+		@Pc(53) int cosPitch = Model.cosTable[this.cameraPitch];
+		@Pc(58) int sinYaw = Model.sinTable[this.cameraYaw];
+		@Pc(63) int cosYaw = Model.cosTable[this.cameraYaw];
 
 		int tmp = dz * sinYaw + dx * cosYaw >> 16;
 		dz = dz * cosYaw - dx * sinYaw >> 16;

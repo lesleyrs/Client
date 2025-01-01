@@ -16,25 +16,25 @@ public class Model extends DoublyLinkable {
 	public int vertexCount;
 
 	@OriginalMember(owner = "client!eb", name = "o", descriptor = "[I")
-	public int[] vertexX;
+	public int[] verticesX;
 
 	@OriginalMember(owner = "client!eb", name = "p", descriptor = "[I")
-	public int[] vertexY;
+	public int[] verticesY;
 
 	@OriginalMember(owner = "client!eb", name = "q", descriptor = "[I")
-	public int[] vertexZ;
+	public int[] verticesZ;
 
 	@OriginalMember(owner = "client!eb", name = "r", descriptor = "I")
 	public int faceCount;
 
 	@OriginalMember(owner = "client!eb", name = "s", descriptor = "[I")
-	public int[] faceVertexA;
+	public int[] faceIndicesA;
 
 	@OriginalMember(owner = "client!eb", name = "t", descriptor = "[I")
-	public int[] faceVertexB;
+	public int[] faceIndicesB;
 
 	@OriginalMember(owner = "client!eb", name = "u", descriptor = "[I")
-	public int[] faceVertexC;
+	public int[] faceIndicesC;
 
 	@OriginalMember(owner = "client!eb", name = "v", descriptor = "[I")
 	private int[] faceColorA;
@@ -46,31 +46,31 @@ public class Model extends DoublyLinkable {
 	private int[] faceColorC;
 
 	@OriginalMember(owner = "client!eb", name = "y", descriptor = "[I")
-	public int[] faceInfo;
+	public int[] faceInfos;
 
 	@OriginalMember(owner = "client!eb", name = "z", descriptor = "[I")
-	private int[] facePriority;
+	private int[] facePriorities;
 
 	@OriginalMember(owner = "client!eb", name = "A", descriptor = "[I")
-	private int[] faceAlpha;
+	private int[] faceAlphas;
 
 	@OriginalMember(owner = "client!eb", name = "B", descriptor = "[I")
-	public int[] faceColor;
+	public int[] faceColors;
 
 	@OriginalMember(owner = "client!eb", name = "C", descriptor = "I")
-	private int priority;
+	private int modelPriority;
 
 	@OriginalMember(owner = "client!eb", name = "D", descriptor = "I")
 	private int texturedFaceCount;
 
 	@OriginalMember(owner = "client!eb", name = "E", descriptor = "[I")
-	private int[] texturedVertexA;
+	private int[] texturePCoordinate;
 
 	@OriginalMember(owner = "client!eb", name = "F", descriptor = "[I")
-	private int[] texturedVertexB;
+	private int[] textureMCoordinate;
 
 	@OriginalMember(owner = "client!eb", name = "G", descriptor = "[I")
-	private int[] texturedVertexC;
+	private int[] textureNCoordinate;
 
 	@OriginalMember(owner = "client!eb", name = "H", descriptor = "I")
 	public int minX;
@@ -103,10 +103,10 @@ public class Model extends DoublyLinkable {
 	public int objRaise;
 
 	@OriginalMember(owner = "client!eb", name = "R", descriptor = "[I")
-	private int[] vertexLabel;
+	private int[] vertexLabels;
 
 	@OriginalMember(owner = "client!eb", name = "S", descriptor = "[I")
-	private int[] faceLabel;
+	private int[] faceLabels;
 
 	@OriginalMember(owner = "client!eb", name = "T", descriptor = "[[I")
 	public int[][] labelVertices;
@@ -247,16 +247,16 @@ public class Model extends DoublyLinkable {
 	public static final int[] pickedBitsets = new int[1000];
 
 	@OriginalMember(owner = "client!eb", name = "Nb", descriptor = "[I")
-	public static int[] sin = Pix3D.sinTable;
+	public static int[] sinTable = Pix3D.sinTable;
 
 	@OriginalMember(owner = "client!eb", name = "Ob", descriptor = "[I")
-	public static int[] cos = Pix3D.cosTable;
+	public static int[] cosTable = Pix3D.cosTable;
 
 	@OriginalMember(owner = "client!eb", name = "Pb", descriptor = "[I")
-	public static int[] palette = Pix3D.colourTable;
+	public static int[] colourTable = Pix3D.colourTable;
 
 	@OriginalMember(owner = "client!eb", name = "Qb", descriptor = "[I")
-	public static int[] reciprical16 = Pix3D.divTable2;
+	public static int[] divTable2 = Pix3D.divTable2;
 
 	@OriginalMember(owner = "client!eb", name = "<init>", descriptor = "(ZI)V")
 	public Model(@OriginalArg(1) int id) {
@@ -271,44 +271,47 @@ public class Model extends DoublyLinkable {
 			this.vertexCount = meta.vertexCount;
 			this.faceCount = meta.faceCount;
 			this.texturedFaceCount = meta.texturedFaceCount;
-			this.vertexX = new int[this.vertexCount];
-			this.vertexY = new int[this.vertexCount];
-			this.vertexZ = new int[this.vertexCount];
-			this.faceVertexA = new int[this.faceCount];
-			this.faceVertexB = new int[this.faceCount];
-			this.faceVertexC = new int[this.faceCount];
-			this.texturedVertexA = new int[this.texturedFaceCount];
-			this.texturedVertexB = new int[this.texturedFaceCount];
-			this.texturedVertexC = new int[this.texturedFaceCount];
+
+			this.verticesX = new int[this.vertexCount];
+			this.verticesY = new int[this.vertexCount];
+			this.verticesZ = new int[this.vertexCount];
+
+			this.faceIndicesA = new int[this.faceCount];
+			this.faceIndicesB = new int[this.faceCount];
+			this.faceIndicesC = new int[this.faceCount];
+
+			this.texturePCoordinate = new int[this.texturedFaceCount];
+			this.textureMCoordinate = new int[this.texturedFaceCount];
+			this.textureNCoordinate = new int[this.texturedFaceCount];
 
 			if (meta.vertexLabelsOffset >= 0) {
-				this.vertexLabel = new int[this.vertexCount];
+				this.vertexLabels = new int[this.vertexCount];
 			}
 
 			if (meta.faceInfosOffset >= 0) {
-				this.faceInfo = new int[this.faceCount];
+				this.faceInfos = new int[this.faceCount];
 			}
 
 			if (meta.facePrioritiesOffset >= 0) {
-				this.facePriority = new int[this.faceCount];
+				this.facePriorities = new int[this.faceCount];
 			} else {
-				this.priority = -meta.facePrioritiesOffset - 1;
+				this.modelPriority = -meta.facePrioritiesOffset - 1;
 			}
 
 			if (meta.faceAlphasOffset >= 0) {
-				this.faceAlpha = new int[this.faceCount];
+				this.faceAlphas = new int[this.faceCount];
 			}
 
 			if (meta.faceLabelsOffset >= 0) {
-				this.faceLabel = new int[this.faceCount];
+				this.faceLabels = new int[this.faceCount];
 			}
 
-			this.faceColor = new int[this.faceCount];
+			this.faceColors = new int[this.faceCount];
 
 			point1.pos = meta.vertexFlagsOffset;
-			point2.pos = meta.vertexXOffset;
-			point3.pos = meta.vertexYOffset;
-			point4.pos = meta.vertexZOffset;
+			point2.pos = meta.verticesXOffset;
+			point3.pos = meta.verticesYOffset;
+			point4.pos = meta.verticesZOffset;
 			point5.pos = meta.vertexLabelsOffset;
 
 			@Pc(175) int dx = 0;
@@ -320,6 +323,7 @@ public class Model extends DoublyLinkable {
 
 			for (@Pc(181) int v = 0; v < this.vertexCount; v++) {
 				int flags = point1.g1();
+
 				a = 0;
 				if ((flags & 0x1) != 0) {
 					a = point2.gsmart();
@@ -335,15 +339,15 @@ public class Model extends DoublyLinkable {
 					c = point4.gsmart();
 				}
 
-				this.vertexX[v] = dx + a;
-				this.vertexY[v] = db + b;
-				this.vertexZ[v] = dc + c;
-				dx = this.vertexX[v];
-				db = this.vertexY[v];
-				dc = this.vertexZ[v];
+				this.verticesX[v] = dx + a;
+				this.verticesY[v] = db + b;
+				this.verticesZ[v] = dc + c;
+				dx = this.verticesX[v];
+				db = this.verticesY[v];
+				dc = this.verticesZ[v];
 
-				if (this.vertexLabel != null) {
-					this.vertexLabel[v] = point5.g1();
+				if (this.vertexLabels != null) {
+					this.vertexLabels[v] = point5.g1();
 				}
 			}
 
@@ -352,27 +356,29 @@ public class Model extends DoublyLinkable {
 			face3.pos = meta.facePrioritiesOffset;
 			face4.pos = meta.faceAlphasOffset;
 			face5.pos = meta.faceLabelsOffset;
+
 			for (int f = 0; f < this.faceCount; f++) {
-				this.faceColor[f] = face1.g2();
-				if (this.faceInfo != null) {
-					this.faceInfo[f] = face2.g1();
+				this.faceColors[f] = face1.g2();
+
+				if (this.faceInfos != null) {
+					this.faceInfos[f] = face2.g1();
 				}
 
-				if (this.facePriority != null) {
-					this.facePriority[f] = face3.g1();
+				if (this.facePriorities != null) {
+					this.facePriorities[f] = face3.g1();
 				}
 
-				if (this.faceAlpha != null) {
-					this.faceAlpha[f] = face4.g1();
+				if (this.faceAlphas != null) {
+					this.faceAlphas[f] = face4.g1();
 				}
 
-				if (this.faceLabel != null) {
-					this.faceLabel[f] = face5.g1();
+				if (this.faceLabels != null) {
+					this.faceLabels[f] = face5.g1();
 				}
 			}
 
-			vertex1.pos = meta.faceVerticesOffset;
-			vertex2.pos = meta.faceOrientationsOffset;
+			vertex1.pos = meta.faceIndicesOffset;
+			vertex2.pos = meta.faceIndicesFlagsOffset;
 
 			a = 0;
 			b = 0;
@@ -387,42 +393,42 @@ public class Model extends DoublyLinkable {
 					b = vertex1.gsmart() + a;
 					c = vertex1.gsmart() + b;
 					last = c;
-					this.faceVertexA[f] = a;
-					this.faceVertexB[f] = b;
-					this.faceVertexC[f] = c;
+					this.faceIndicesA[f] = a;
+					this.faceIndicesB[f] = b;
+					this.faceIndicesC[f] = c;
 				} else if (orientation == 2) {
 					a = a;
 					b = c;
 					c = vertex1.gsmart() + last;
 					last = c;
-					this.faceVertexA[f] = a;
-					this.faceVertexB[f] = b;
-					this.faceVertexC[f] = c;
+					this.faceIndicesA[f] = a;
+					this.faceIndicesB[f] = b;
+					this.faceIndicesC[f] = c;
 				} else if (orientation == 3) {
 					a = c;
 					b = b;
 					c = vertex1.gsmart() + last;
 					last = c;
-					this.faceVertexA[f] = a;
-					this.faceVertexB[f] = b;
-					this.faceVertexC[f] = c;
+					this.faceIndicesA[f] = a;
+					this.faceIndicesB[f] = b;
+					this.faceIndicesC[f] = c;
 				} else if (orientation == 4) {
 					@Pc(459) int tmp = a;
 					a = b;
 					b = tmp;
 					c = vertex1.gsmart() + last;
 					last = c;
-					this.faceVertexA[f] = a;
-					this.faceVertexB[f] = tmp;
-					this.faceVertexC[f] = c;
+					this.faceIndicesA[f] = a;
+					this.faceIndicesB[f] = tmp;
+					this.faceIndicesC[f] = c;
 				}
 			}
 
-			axis.pos = meta.faceTextureAxisOffset * 6;
+			axis.pos = meta.projectionPlanePointsOffset * 6;
 			for (int f = 0; f < this.texturedFaceCount; f++) {
-				this.texturedVertexA[f] = axis.g2();
-				this.texturedVertexB[f] = axis.g2();
-				this.texturedVertexC[f] = axis.g2();
+				this.texturePCoordinate[f] = axis.g2();
+				this.textureMCoordinate[f] = axis.g2();
+				this.textureNCoordinate[f] = axis.g2();
 			}
 		}
 	}
@@ -437,7 +443,7 @@ public class Model extends DoublyLinkable {
 		this.vertexCount = 0;
 		this.faceCount = 0;
 		this.texturedFaceCount = 0;
-		this.priority = -1;
+		this.modelPriority = -1;
 
 		for (@Pc(43) int i = 0; i < count; i++) {
 			@Pc(49) Model model = models[i];
@@ -445,53 +451,53 @@ public class Model extends DoublyLinkable {
 				this.vertexCount += model.vertexCount;
 				this.faceCount += model.faceCount;
 				this.texturedFaceCount += model.texturedFaceCount;
-				copyInfo |= model.faceInfo != null;
+				copyInfo |= model.faceInfos != null;
 
-				if (model.facePriority == null) {
-					if (this.priority == -1) {
-						this.priority = model.priority;
+				if (model.facePriorities == null) {
+					if (this.modelPriority == -1) {
+						this.modelPriority = model.modelPriority;
 					}
 
-					if (this.priority != model.priority) {
+					if (this.modelPriority != model.modelPriority) {
 						copyPriorities = true;
 					}
 				} else {
 					copyPriorities = true;
 				}
 
-				copyAlpha |= model.faceAlpha != null;
-				copyLabels |= model.faceLabel != null;
+				copyAlpha |= model.faceAlphas != null;
+				copyLabels |= model.faceLabels != null;
 			}
 		}
 
-		this.vertexX = new int[this.vertexCount];
-		this.vertexY = new int[this.vertexCount];
-		this.vertexZ = new int[this.vertexCount];
-		this.vertexLabel = new int[this.vertexCount];
-		this.faceVertexA = new int[this.faceCount];
-		this.faceVertexB = new int[this.faceCount];
-		this.faceVertexC = new int[this.faceCount];
-		this.texturedVertexA = new int[this.texturedFaceCount];
-		this.texturedVertexB = new int[this.texturedFaceCount];
-		this.texturedVertexC = new int[this.texturedFaceCount];
+		this.verticesX = new int[this.vertexCount];
+		this.verticesY = new int[this.vertexCount];
+		this.verticesZ = new int[this.vertexCount];
+		this.vertexLabels = new int[this.vertexCount];
+		this.faceIndicesA = new int[this.faceCount];
+		this.faceIndicesB = new int[this.faceCount];
+		this.faceIndicesC = new int[this.faceCount];
+		this.texturePCoordinate = new int[this.texturedFaceCount];
+		this.textureMCoordinate = new int[this.texturedFaceCount];
+		this.textureNCoordinate = new int[this.texturedFaceCount];
 
 		if (copyInfo) {
-			this.faceInfo = new int[this.faceCount];
+			this.faceInfos = new int[this.faceCount];
 		}
 
 		if (copyPriorities) {
-			this.facePriority = new int[this.faceCount];
+			this.facePriorities = new int[this.faceCount];
 		}
 
 		if (copyAlpha) {
-			this.faceAlpha = new int[this.faceCount];
+			this.faceAlphas = new int[this.faceCount];
 		}
 
 		if (copyLabels) {
-			this.faceLabel = new int[this.faceCount];
+			this.faceLabels = new int[this.faceCount];
 		}
 
-		this.faceColor = new int[this.faceCount];
+		this.faceColors = new int[this.faceCount];
 		this.vertexCount = 0;
 		this.faceCount = 0;
 		this.texturedFaceCount = 0;
@@ -502,44 +508,44 @@ public class Model extends DoublyLinkable {
 			if (model != null) {
 				for (@Pc(235) int face = 0; face < model.faceCount; face++) {
 					if (copyInfo) {
-						if (model.faceInfo == null) {
-							this.faceInfo[this.faceCount] = 0;
+						if (model.faceInfos == null) {
+							this.faceInfos[this.faceCount] = 0;
 						} else {
-							this.faceInfo[this.faceCount] = model.faceInfo[face];
+							this.faceInfos[this.faceCount] = model.faceInfos[face];
 						}
 					}
 
 					if (copyPriorities) {
-						if (model.facePriority == null) {
-							this.facePriority[this.faceCount] = model.priority;
+						if (model.facePriorities == null) {
+							this.facePriorities[this.faceCount] = model.modelPriority;
 						} else {
-							this.facePriority[this.faceCount] = model.facePriority[face];
+							this.facePriorities[this.faceCount] = model.facePriorities[face];
 						}
 					}
 
 					if (copyAlpha) {
-						if (model.faceAlpha == null) {
-							this.faceAlpha[this.faceCount] = 0;
+						if (model.faceAlphas == null) {
+							this.faceAlphas[this.faceCount] = 0;
 						} else {
-							this.faceAlpha[this.faceCount] = model.faceAlpha[face];
+							this.faceAlphas[this.faceCount] = model.faceAlphas[face];
 						}
 					}
 
-					if (copyLabels && model.faceLabel != null) {
-						this.faceLabel[this.faceCount] = model.faceLabel[face];
+					if (copyLabels && model.faceLabels != null) {
+						this.faceLabels[this.faceCount] = model.faceLabels[face];
 					}
 
-					this.faceColor[this.faceCount] = model.faceColor[face];
-					this.faceVertexA[this.faceCount] = this.addVertex(model, model.faceVertexA[face]);
-					this.faceVertexB[this.faceCount] = this.addVertex(model, model.faceVertexB[face]);
-					this.faceVertexC[this.faceCount] = this.addVertex(model, model.faceVertexC[face]);
+					this.faceColors[this.faceCount] = model.faceColors[face];
+					this.faceIndicesA[this.faceCount] = this.addVertex(model, model.faceIndicesA[face]);
+					this.faceIndicesB[this.faceCount] = this.addVertex(model, model.faceIndicesB[face]);
+					this.faceIndicesC[this.faceCount] = this.addVertex(model, model.faceIndicesC[face]);
 					this.faceCount++;
 				}
 
 				for (@Pc(376) int f = 0; f < model.texturedFaceCount; f++) {
-					this.texturedVertexA[this.texturedFaceCount] = this.addVertex(model, model.texturedVertexA[f]);
-					this.texturedVertexB[this.texturedFaceCount] = this.addVertex(model, model.texturedVertexB[f]);
-					this.texturedVertexC[this.texturedFaceCount] = this.addVertex(model, model.texturedVertexC[f]);
+					this.texturePCoordinate[this.texturedFaceCount] = this.addVertex(model, model.texturePCoordinate[f]);
+					this.textureMCoordinate[this.texturedFaceCount] = this.addVertex(model, model.textureMCoordinate[f]);
+					this.textureNCoordinate[this.texturedFaceCount] = this.addVertex(model, model.textureNCoordinate[f]);
 					this.texturedFaceCount++;
 				}
 			}
@@ -556,7 +562,7 @@ public class Model extends DoublyLinkable {
 		this.vertexCount = 0;
 		this.faceCount = 0;
 		this.texturedFaceCount = 0;
-		this.priority = -1;
+		this.modelPriority = -1;
 
 		for (@Pc(43) int i = 0; i < count; i++) {
 			@Pc(49) Model model = models[i];
@@ -565,51 +571,51 @@ public class Model extends DoublyLinkable {
 				this.faceCount += model.faceCount;
 				this.texturedFaceCount += model.texturedFaceCount;
 
-				copyInfo |= model.faceInfo != null;
+				copyInfo |= model.faceInfos != null;
 
-				if (model.facePriority == null) {
-					if (this.priority == -1) {
-						this.priority = model.priority;
+				if (model.facePriorities == null) {
+					if (this.modelPriority == -1) {
+						this.modelPriority = model.modelPriority;
 					}
-					if (this.priority != model.priority) {
+					if (this.modelPriority != model.modelPriority) {
 						copyPriority = true;
 					}
 				} else {
 					copyPriority = true;
 				}
 
-				copyAlpha |= model.faceAlpha != null;
-				copyColor |= model.faceColor != null;
+				copyAlpha |= model.faceAlphas != null;
+				copyColor |= model.faceColors != null;
 			}
 		}
 
-		this.vertexX = new int[this.vertexCount];
-		this.vertexY = new int[this.vertexCount];
-		this.vertexZ = new int[this.vertexCount];
-		this.faceVertexA = new int[this.faceCount];
-		this.faceVertexB = new int[this.faceCount];
-		this.faceVertexC = new int[this.faceCount];
+		this.verticesX = new int[this.vertexCount];
+		this.verticesY = new int[this.vertexCount];
+		this.verticesZ = new int[this.vertexCount];
+		this.faceIndicesA = new int[this.faceCount];
+		this.faceIndicesB = new int[this.faceCount];
+		this.faceIndicesC = new int[this.faceCount];
 		this.faceColorA = new int[this.faceCount];
 		this.faceColorB = new int[this.faceCount];
 		this.faceColorC = new int[this.faceCount];
-		this.texturedVertexA = new int[this.texturedFaceCount];
-		this.texturedVertexB = new int[this.texturedFaceCount];
-		this.texturedVertexC = new int[this.texturedFaceCount];
+		this.texturePCoordinate = new int[this.texturedFaceCount];
+		this.textureMCoordinate = new int[this.texturedFaceCount];
+		this.textureNCoordinate = new int[this.texturedFaceCount];
 
 		if (copyInfo) {
-			this.faceInfo = new int[this.faceCount];
+			this.faceInfos = new int[this.faceCount];
 		}
 
 		if (copyPriority) {
-			this.facePriority = new int[this.faceCount];
+			this.facePriorities = new int[this.faceCount];
 		}
 
 		if (copyAlpha) {
-			this.faceAlpha = new int[this.faceCount];
+			this.faceAlphas = new int[this.faceCount];
 		}
 
 		if (copyColor) {
-			this.faceColor = new int[this.faceCount];
+			this.faceColors = new int[this.faceCount];
 		}
 
 		this.vertexCount = 0;
@@ -623,55 +629,55 @@ public class Model extends DoublyLinkable {
 				@Pc(245) int vertexCount = this.vertexCount;
 
 				for (@Pc(247) int v = 0; v < model.vertexCount; v++) {
-					this.vertexX[this.vertexCount] = model.vertexX[v];
-					this.vertexY[this.vertexCount] = model.vertexY[v];
-					this.vertexZ[this.vertexCount] = model.vertexZ[v];
+					this.verticesX[this.vertexCount] = model.verticesX[v];
+					this.verticesY[this.vertexCount] = model.verticesY[v];
+					this.verticesZ[this.vertexCount] = model.verticesZ[v];
 					this.vertexCount++;
 				}
 
 				for (@Pc(289) int f = 0; f < model.faceCount; f++) {
-					this.faceVertexA[this.faceCount] = model.faceVertexA[f] + vertexCount;
-					this.faceVertexB[this.faceCount] = model.faceVertexB[f] + vertexCount;
-					this.faceVertexC[this.faceCount] = model.faceVertexC[f] + vertexCount;
+					this.faceIndicesA[this.faceCount] = model.faceIndicesA[f] + vertexCount;
+					this.faceIndicesB[this.faceCount] = model.faceIndicesB[f] + vertexCount;
+					this.faceIndicesC[this.faceCount] = model.faceIndicesC[f] + vertexCount;
 					this.faceColorA[this.faceCount] = model.faceColorA[f];
 					this.faceColorB[this.faceCount] = model.faceColorB[f];
 					this.faceColorC[this.faceCount] = model.faceColorC[f];
 
 					if (copyInfo) {
-						if (model.faceInfo == null) {
-							this.faceInfo[this.faceCount] = 0;
+						if (model.faceInfos == null) {
+							this.faceInfos[this.faceCount] = 0;
 						} else {
-							this.faceInfo[this.faceCount] = model.faceInfo[f];
+							this.faceInfos[this.faceCount] = model.faceInfos[f];
 						}
 					}
 
 					if (copyPriority) {
-						if (model.facePriority == null) {
-							this.facePriority[this.faceCount] = model.priority;
+						if (model.facePriorities == null) {
+							this.facePriorities[this.faceCount] = model.modelPriority;
 						} else {
-							this.facePriority[this.faceCount] = model.facePriority[f];
+							this.facePriorities[this.faceCount] = model.facePriorities[f];
 						}
 					}
 
 					if (copyAlpha) {
-						if (model.faceAlpha == null) {
-							this.faceAlpha[this.faceCount] = 0;
+						if (model.faceAlphas == null) {
+							this.faceAlphas[this.faceCount] = 0;
 						} else {
-							this.faceAlpha[this.faceCount] = model.faceAlpha[f];
+							this.faceAlphas[this.faceCount] = model.faceAlphas[f];
 						}
 					}
 
-					if (copyColor && model.faceColor != null) {
-						this.faceColor[this.faceCount] = model.faceColor[f];
+					if (copyColor && model.faceColors != null) {
+						this.faceColors[this.faceCount] = model.faceColors[f];
 					}
 
 					this.faceCount++;
 				}
 
 				for (@Pc(445) int f = 0; f < model.texturedFaceCount; f++) {
-					this.texturedVertexA[this.texturedFaceCount] = model.texturedVertexA[f] + vertexCount;
-					this.texturedVertexB[this.texturedFaceCount] = model.texturedVertexB[f] + vertexCount;
-					this.texturedVertexC[this.texturedFaceCount] = model.texturedVertexC[f] + vertexCount;
+					this.texturePCoordinate[this.texturedFaceCount] = model.texturePCoordinate[f] + vertexCount;
+					this.textureMCoordinate[this.texturedFaceCount] = model.textureMCoordinate[f] + vertexCount;
+					this.textureNCoordinate[this.texturedFaceCount] = model.textureNCoordinate[f] + vertexCount;
 					this.texturedFaceCount++;
 				}
 			}
@@ -687,52 +693,52 @@ public class Model extends DoublyLinkable {
 		this.texturedFaceCount = src.texturedFaceCount;
 
 		if (shareVertices) {
-			this.vertexX = src.vertexX;
-			this.vertexY = src.vertexY;
-			this.vertexZ = src.vertexZ;
+			this.verticesX = src.verticesX;
+			this.verticesY = src.verticesY;
+			this.verticesZ = src.verticesZ;
 		} else {
-			this.vertexX = new int[this.vertexCount];
-			this.vertexY = new int[this.vertexCount];
-			this.vertexZ = new int[this.vertexCount];
+			this.verticesX = new int[this.vertexCount];
+			this.verticesY = new int[this.vertexCount];
+			this.verticesZ = new int[this.vertexCount];
 
 			for (int v = 0; v < this.vertexCount; v++) {
-				this.vertexX[v] = src.vertexX[v];
-				this.vertexY[v] = src.vertexY[v];
-				this.vertexZ[v] = src.vertexZ[v];
+				this.verticesX[v] = src.verticesX[v];
+				this.verticesY[v] = src.verticesY[v];
+				this.verticesZ[v] = src.verticesZ[v];
 			}
 		}
 
 		if (shareColors) {
-			this.faceColor = src.faceColor;
+			this.faceColors = src.faceColors;
 		} else {
-			this.faceColor = new int[this.faceCount];
-			System.arraycopy(src.faceColor, 0, this.faceColor, 0, this.faceCount);
+			this.faceColors = new int[this.faceCount];
+			System.arraycopy(src.faceColors, 0, this.faceColors, 0, this.faceCount);
 		}
 
 		if (shareAlpha) {
-			this.faceAlpha = src.faceAlpha;
+			this.faceAlphas = src.faceAlphas;
 		} else {
-			this.faceAlpha = new int[this.faceCount];
-			if (src.faceAlpha == null) {
+			this.faceAlphas = new int[this.faceCount];
+			if (src.faceAlphas == null) {
 				for (int f = 0; f < this.faceCount; f++) {
-					this.faceAlpha[f] = 0;
+					this.faceAlphas[f] = 0;
 				}
 			} else {
-				System.arraycopy(src.faceAlpha, 0, this.faceAlpha, 0, this.faceCount);
+				System.arraycopy(src.faceAlphas, 0, this.faceAlphas, 0, this.faceCount);
 			}
 		}
 
-		this.vertexLabel = src.vertexLabel;
-		this.faceLabel = src.faceLabel;
-		this.faceInfo = src.faceInfo;
-		this.faceVertexA = src.faceVertexA;
-		this.faceVertexB = src.faceVertexB;
-		this.faceVertexC = src.faceVertexC;
-		this.facePriority = src.facePriority;
-		this.priority = src.priority;
-		this.texturedVertexA = src.texturedVertexA;
-		this.texturedVertexB = src.texturedVertexB;
-		this.texturedVertexC = src.texturedVertexC;
+		this.vertexLabels = src.vertexLabels;
+		this.faceLabels = src.faceLabels;
+		this.faceInfos = src.faceInfos;
+		this.faceIndicesA = src.faceIndicesA;
+		this.faceIndicesB = src.faceIndicesB;
+		this.faceIndicesC = src.faceIndicesC;
+		this.facePriorities = src.facePriorities;
+		this.modelPriority = src.modelPriority;
+		this.texturePCoordinate = src.texturePCoordinate;
+		this.textureMCoordinate = src.textureMCoordinate;
+		this.textureNCoordinate = src.textureNCoordinate;
 	}
 
 	@OriginalMember(owner = "client!eb", name = "<init>", descriptor = "(Lclient!eb;BZZ)V")
@@ -742,10 +748,10 @@ public class Model extends DoublyLinkable {
 		this.texturedFaceCount = src.texturedFaceCount;
 
 		if (copyVertexY) {
-			this.vertexY = new int[this.vertexCount];
-			System.arraycopy(src.vertexY, 0, this.vertexY, 0, this.vertexCount);
+			this.verticesY = new int[this.vertexCount];
+			System.arraycopy(src.verticesY, 0, this.verticesY, 0, this.vertexCount);
 		} else {
-			this.vertexY = src.vertexY;
+			this.verticesY = src.verticesY;
 		}
 
 		if (copyFaces) {
@@ -758,13 +764,13 @@ public class Model extends DoublyLinkable {
 				this.faceColorC[f] = src.faceColorC[f];
 			}
 
-			this.faceInfo = new int[this.faceCount];
-			if (src.faceInfo == null) {
+			this.faceInfos = new int[this.faceCount];
+			if (src.faceInfos == null) {
 				for (int f = 0; f < this.faceCount; f++) {
-					this.faceInfo[f] = 0;
+					this.faceInfos[f] = 0;
 				}
 			} else {
-				System.arraycopy(src.faceInfo, 0, this.faceInfo, 0, this.faceCount);
+				System.arraycopy(src.faceInfos, 0, this.faceInfos, 0, this.faceCount);
 			}
 
 			this.vertexNormal = new VertexNormal[this.vertexCount];
@@ -782,21 +788,21 @@ public class Model extends DoublyLinkable {
 			this.faceColorA = src.faceColorA;
 			this.faceColorB = src.faceColorB;
 			this.faceColorC = src.faceColorC;
-			this.faceInfo = src.faceInfo;
+			this.faceInfos = src.faceInfos;
 		}
 
-		this.vertexX = src.vertexX;
-		this.vertexZ = src.vertexZ;
-		this.faceColor = src.faceColor;
-		this.faceAlpha = src.faceAlpha;
-		this.facePriority = src.facePriority;
-		this.priority = src.priority;
-		this.faceVertexA = src.faceVertexA;
-		this.faceVertexB = src.faceVertexB;
-		this.faceVertexC = src.faceVertexC;
-		this.texturedVertexA = src.texturedVertexA;
-		this.texturedVertexB = src.texturedVertexB;
-		this.texturedVertexC = src.texturedVertexC;
+		this.verticesX = src.verticesX;
+		this.verticesZ = src.verticesZ;
+		this.faceColors = src.faceColors;
+		this.faceAlphas = src.faceAlphas;
+		this.facePriorities = src.facePriorities;
+		this.modelPriority = src.modelPriority;
+		this.faceIndicesA = src.faceIndicesA;
+		this.faceIndicesB = src.faceIndicesB;
+		this.faceIndicesC = src.faceIndicesC;
+		this.texturePCoordinate = src.texturePCoordinate;
+		this.textureMCoordinate = src.textureMCoordinate;
+		this.textureNCoordinate = src.textureNCoordinate;
 		this.maxY = src.maxY;
 		this.minY = src.minY;
 		this.radius = src.radius;
@@ -814,44 +820,44 @@ public class Model extends DoublyLinkable {
 		this.faceCount = src.faceCount;
 		this.texturedFaceCount = src.texturedFaceCount;
 
-		this.vertexX = new int[this.vertexCount];
-		this.vertexY = new int[this.vertexCount];
-		this.vertexZ = new int[this.vertexCount];
+		this.verticesX = new int[this.vertexCount];
+		this.verticesY = new int[this.vertexCount];
+		this.verticesZ = new int[this.vertexCount];
 
 		for (@Pc(50) int v = 0; v < this.vertexCount; v++) {
-			this.vertexX[v] = src.vertexX[v];
-			this.vertexY[v] = src.vertexY[v];
-			this.vertexZ[v] = src.vertexZ[v];
+			this.verticesX[v] = src.verticesX[v];
+			this.verticesY[v] = src.verticesY[v];
+			this.verticesZ[v] = src.verticesZ[v];
 		}
 
 		if (shareAlpha) {
-			this.faceAlpha = src.faceAlpha;
+			this.faceAlphas = src.faceAlphas;
 		} else {
-			this.faceAlpha = new int[this.faceCount];
-			if (src.faceAlpha == null) {
+			this.faceAlphas = new int[this.faceCount];
+			if (src.faceAlphas == null) {
 				for (int f = 0; f < this.faceCount; f++) {
-					this.faceAlpha[f] = 0;
+					this.faceAlphas[f] = 0;
 				}
 			} else {
-				System.arraycopy(src.faceAlpha, 0, this.faceAlpha, 0, this.faceCount);
+				System.arraycopy(src.faceAlphas, 0, this.faceAlphas, 0, this.faceCount);
 			}
 		}
 
-		this.faceInfo = src.faceInfo;
-		this.faceColor = src.faceColor;
-		this.facePriority = src.facePriority;
-		this.priority = src.priority;
+		this.faceInfos = src.faceInfos;
+		this.faceColors = src.faceColors;
+		this.facePriorities = src.facePriorities;
+		this.modelPriority = src.modelPriority;
 		this.labelFaces = src.labelFaces;
 		this.labelVertices = src.labelVertices;
-		this.faceVertexA = src.faceVertexA;
-		this.faceVertexB = src.faceVertexB;
-		this.faceVertexC = src.faceVertexC;
+		this.faceIndicesA = src.faceIndicesA;
+		this.faceIndicesB = src.faceIndicesB;
+		this.faceIndicesC = src.faceIndicesC;
 		this.faceColorA = src.faceColorA;
 		this.faceColorB = src.faceColorB;
 		this.faceColorC = src.faceColorC;
-		this.texturedVertexA = src.texturedVertexA;
-		this.texturedVertexB = src.texturedVertexB;
-		this.texturedVertexC = src.texturedVertexC;
+		this.texturePCoordinate = src.texturePCoordinate;
+		this.textureMCoordinate = src.textureMCoordinate;
+		this.textureNCoordinate = src.textureNCoordinate;
 	}
 
 	@OriginalMember(owner = "client!eb", name = "a", descriptor = "(Z)V")
@@ -886,10 +892,10 @@ public class Model extends DoublyLinkable {
 		tmpPriority10FaceDepth = null;
 		tmpPriority11FaceDepth = null;
 		tmpPriorityDepthSum = null;
-		sin = null;
-		cos = null;
-		palette = null;
-		reciprical16 = null;
+		sinTable = null;
+		cosTable = null;
+		colourTable = null;
+		divTable2 = null;
 	}
 
 	@OriginalMember(owner = "client!eb", name = "a", descriptor = "(ILclient!ub;)V")
@@ -909,6 +915,7 @@ public class Model extends DoublyLinkable {
 			vertex1 = new Packet(models.read("ob_vertex1.dat", null));
 			vertex2 = new Packet(models.read("ob_vertex2.dat", null));
 			axis = new Packet(models.read("ob_axis.dat", null));
+
 			head.pos = 0;
 			point1.pos = 0;
 			point2.pos = 0;
@@ -916,44 +923,54 @@ public class Model extends DoublyLinkable {
 			point4.pos = 0;
 			vertex1.pos = 0;
 			vertex2.pos = 0;
+
 			@Pc(172) int count = head.g2();
 			metadata = new Metadata[count + 100];
-			@Pc(179) int vertexTextureDataOffset = 0;
-			@Pc(181) int labelDataOffset = 0;
-			@Pc(183) int triangleColorDataOffset = 0;
-			@Pc(185) int triangleInfoDataOffset = 0;
-			@Pc(187) int trianglePriorityDataOffset = 0;
-			@Pc(189) int triangleAlphaDataOffset = 0;
-			@Pc(191) int triangleSkinDataOffset = 0;
+
+			@Pc(179) int projectionPlanePointsOffset = 0;
+			@Pc(181) int vertexLabelsOffset = 0;
+			@Pc(183) int faceColorsOffset = 0;
+			@Pc(185) int faceInfosOffset = 0;
+			@Pc(187) int facePrioritiesOffset = 0;
+			@Pc(189) int faceAlphasOffset = 0;
+			@Pc(191) int faceLabelsOffset = 0;
+
 			for (@Pc(193) int i = 0; i < count; i++) {
 				@Pc(198) int index = head.g2();
 				@Pc(206) Metadata meta = metadata[index] = new Metadata();
+
 				meta.vertexCount = head.g2();
 				meta.faceCount = head.g2();
 				meta.texturedFaceCount = head.g1();
+
 				meta.vertexFlagsOffset = point1.pos;
-				meta.vertexXOffset = point2.pos;
-				meta.vertexYOffset = point3.pos;
-				meta.vertexZOffset = point4.pos;
-				meta.faceVerticesOffset = vertex1.pos;
-				meta.faceOrientationsOffset = vertex2.pos;
-				@Pc(245) int hasInfo = head.g1();
-				@Pc(248) int hasPriorities = head.g1();
-				@Pc(251) int hasAlpha = head.g1();
-				@Pc(254) int hasSkins = head.g1();
-				@Pc(257) int hasLabels = head.g1();
+				meta.verticesXOffset = point2.pos;
+				meta.verticesYOffset = point3.pos;
+				meta.verticesZOffset = point4.pos;
+				meta.faceIndicesOffset = vertex1.pos;
+				meta.faceIndicesFlagsOffset = vertex2.pos;
+
+				@Pc(245) int faceInfosFlag = head.g1();
+				@Pc(248) int facePrioritiesFlag = head.g1();
+				@Pc(251) int faceAlphasFlag = head.g1();
+				@Pc(254) int faceLabelsFlag = head.g1();
+				@Pc(257) int vertexLabelsFlag = head.g1();
+
 				for (@Pc(259) int v = 0; v < meta.vertexCount; v++) {
 					int flags = point1.g1();
 					if ((flags & 0x1) != 0) {
 						point2.gsmart();
 					}
+
 					if ((flags & 0x2) != 0) {
 						point3.gsmart();
 					}
+
 					if ((flags & 0x4) != 0) {
 						point4.gsmart();
 					}
 				}
+
 				for (int f = 0; f < meta.faceCount; f++) {
 					@Pc(297) int type = vertex2.g1();
 					if (type == 1) {
@@ -962,40 +979,47 @@ public class Model extends DoublyLinkable {
 					}
 					vertex1.gsmart();
 				}
-				meta.faceColorsOffset = triangleColorDataOffset;
-				triangleColorDataOffset += meta.faceCount * 2;
-				if (hasInfo == 1) {
-					meta.faceInfosOffset = triangleInfoDataOffset;
-					triangleInfoDataOffset += meta.faceCount;
+
+				meta.faceColorsOffset = faceColorsOffset;
+				faceColorsOffset += meta.faceCount * 2;
+
+				if (faceInfosFlag == 1) {
+					meta.faceInfosOffset = faceInfosOffset;
+					faceInfosOffset += meta.faceCount;
 				} else {
 					meta.faceInfosOffset = -1;
 				}
-				if (hasPriorities == 255) {
-					meta.facePrioritiesOffset = trianglePriorityDataOffset;
-					trianglePriorityDataOffset += meta.faceCount;
+
+				if (facePrioritiesFlag == 255) {
+					meta.facePrioritiesOffset = facePrioritiesOffset;
+					facePrioritiesOffset += meta.faceCount;
 				} else {
-					meta.facePrioritiesOffset = -hasPriorities - 1;
+					meta.facePrioritiesOffset = -facePrioritiesFlag - 1;
 				}
-				if (hasAlpha == 1) {
-					meta.faceAlphasOffset = triangleAlphaDataOffset;
-					triangleAlphaDataOffset += meta.faceCount;
+
+				if (faceAlphasFlag == 1) {
+					meta.faceAlphasOffset = faceAlphasOffset;
+					faceAlphasOffset += meta.faceCount;
 				} else {
 					meta.faceAlphasOffset = -1;
 				}
-				if (hasSkins == 1) {
-					meta.faceLabelsOffset = triangleSkinDataOffset;
-					triangleSkinDataOffset += meta.faceCount;
+
+				if (faceLabelsFlag == 1) {
+					meta.faceLabelsOffset = faceLabelsOffset;
+					faceLabelsOffset += meta.faceCount;
 				} else {
 					meta.faceLabelsOffset = -1;
 				}
-				if (hasLabels == 1) {
-					meta.vertexLabelsOffset = labelDataOffset;
-					labelDataOffset += meta.vertexCount;
+
+				if (vertexLabelsFlag == 1) {
+					meta.vertexLabelsOffset = vertexLabelsOffset;
+					vertexLabelsOffset += meta.vertexCount;
 				} else {
 					meta.vertexLabelsOffset = -1;
 				}
-				meta.faceTextureAxisOffset = vertexTextureDataOffset;
-				vertexTextureDataOffset += meta.texturedFaceCount;
+
+				meta.projectionPlanePointsOffset = projectionPlanePointsOffset;
+				projectionPlanePointsOffset += meta.texturedFaceCount;
 			}
 		} catch (@Pc(421) Exception ex) {
 			System.out.println("Error loading model index");
@@ -1025,21 +1049,21 @@ public class Model extends DoublyLinkable {
 	@OriginalMember(owner = "client!eb", name = "a", descriptor = "(Lclient!eb;I)I")
 	private int addVertex(@OriginalArg(0) Model src, @OriginalArg(1) int vertexId) {
 		@Pc(3) int identical = -1;
-		@Pc(8) int x = src.vertexX[vertexId];
-		@Pc(13) int y = src.vertexY[vertexId];
-		@Pc(18) int z = src.vertexZ[vertexId];
+		@Pc(8) int x = src.verticesX[vertexId];
+		@Pc(13) int y = src.verticesY[vertexId];
+		@Pc(18) int z = src.verticesZ[vertexId];
 		for (@Pc(20) int v = 0; v < this.vertexCount; v++) {
-			if (x == this.vertexX[v] && y == this.vertexY[v] && z == this.vertexZ[v]) {
+			if (x == this.verticesX[v] && y == this.verticesY[v] && z == this.verticesZ[v]) {
 				identical = v;
 				break;
 			}
 		}
 		if (identical == -1) {
-			this.vertexX[this.vertexCount] = x;
-			this.vertexY[this.vertexCount] = y;
-			this.vertexZ[this.vertexCount] = z;
-			if (src.vertexLabel != null) {
-				this.vertexLabel[this.vertexCount] = src.vertexLabel[vertexId];
+			this.verticesX[this.vertexCount] = x;
+			this.verticesY[this.vertexCount] = y;
+			this.verticesZ[this.vertexCount] = z;
+			if (src.vertexLabels != null) {
+				this.vertexLabels[this.vertexCount] = src.vertexLabels[vertexId];
 			}
 			identical = this.vertexCount++;
 		}
@@ -1053,9 +1077,9 @@ public class Model extends DoublyLinkable {
 		this.minY = 0;
 
 		for (@Pc(14) int i = 0; i < this.vertexCount; i++) {
-			@Pc(21) int x = this.vertexX[i];
-			@Pc(26) int y = this.vertexY[i];
-			@Pc(31) int z = this.vertexZ[i];
+			@Pc(21) int x = this.verticesX[i];
+			@Pc(26) int y = this.verticesY[i];
+			@Pc(31) int z = this.verticesZ[i];
 
 			if (-y > this.maxY) {
 				this.maxY = -y;
@@ -1081,7 +1105,7 @@ public class Model extends DoublyLinkable {
 		this.minY = 0;
 
 		for (@Pc(8) int v = 0; v < this.vertexCount; v++) {
-			@Pc(25) int y = this.vertexY[v];
+			@Pc(25) int y = this.verticesY[v];
 			if (-y > this.maxY) {
 				this.maxY = -y;
 			}
@@ -1105,9 +1129,9 @@ public class Model extends DoublyLinkable {
 		this.minZ = 99999;
 
 		for (@Pc(27) int v = 0; v < this.vertexCount; v++) {
-			@Pc(34) int x = this.vertexX[v];
-			@Pc(39) int y = this.vertexY[v];
-			@Pc(44) int z = this.vertexZ[v];
+			@Pc(34) int x = this.verticesX[v];
+			@Pc(39) int y = this.verticesY[v];
+			@Pc(44) int z = this.verticesZ[v];
 
 			if (x < this.minX) {
 				this.minX = x;
@@ -1143,12 +1167,12 @@ public class Model extends DoublyLinkable {
 
 	@OriginalMember(owner = "client!eb", name = "c", descriptor = "(I)V")
 	public void createLabelReferences() {
-		if (this.vertexLabel != null) {
+		if (this.vertexLabels != null) {
 			int[] labelVertexCount = new int[256];
 
 			int count = 0;
 			for (int v = 0; v < this.vertexCount; v++) {
-				int label = this.vertexLabel[v];
+				int label = this.vertexLabels[v];
 				int countDebug = labelVertexCount[label]++;
 
 				if (label > count) {
@@ -1164,19 +1188,19 @@ public class Model extends DoublyLinkable {
 
 			int v = 0;
 			while (v < this.vertexCount) {
-				int label = this.vertexLabel[v];
+				int label = this.vertexLabels[v];
 				this.labelVertices[label][labelVertexCount[label]++] = v++;
 			}
 
-			this.vertexLabel = null;
+			this.vertexLabels = null;
 		}
 
-		if (this.faceLabel != null) {
+		if (this.faceLabels != null) {
 			int[] labelFaceCount = new int[256];
 
 			int count = 0;
 			for (int f = 0; f < this.faceCount; f++) {
-				int label = this.faceLabel[f];
+				int label = this.faceLabels[f];
 				int countDebug = labelFaceCount[label]++;
 				if (label > count) {
 					count = label;
@@ -1191,11 +1215,11 @@ public class Model extends DoublyLinkable {
 
 			int face = 0;
 			while (face < this.faceCount) {
-				int label = this.faceLabel[face];
+				int label = this.faceLabels[face];
 				this.labelFaces[label][labelFaceCount[label]++] = face++;
 			}
 
-			this.faceLabel = null;
+			this.faceLabels = null;
 		}
 	}
 
@@ -1283,9 +1307,9 @@ public class Model extends DoublyLinkable {
 					@Pc(32) int[] vertices = this.labelVertices[label];
 					for (int i = 0; i < vertices.length; i++) {
 						int v = vertices[i];
-						baseX += this.vertexX[v];
-						baseY += this.vertexY[v];
-						baseZ += this.vertexZ[v];
+						baseX += this.verticesX[v];
+						baseY += this.verticesY[v];
+						baseZ += this.verticesZ[v];
 						count++;
 					}
 				}
@@ -1310,9 +1334,9 @@ public class Model extends DoublyLinkable {
 				int[] vertices = this.labelVertices[label];
 				for (int i = 0; i < vertices.length; i++) {
 					int v = vertices[i];
-					this.vertexX[v] += x;
-					this.vertexY[v] += y;
-					this.vertexZ[v] += z;
+					this.verticesX[v] += x;
+					this.verticesY[v] += y;
+					this.verticesZ[v] += z;
 				}
 			}
 		} else if (type == AnimBase.OP_ROTATE) {
@@ -1325,9 +1349,9 @@ public class Model extends DoublyLinkable {
 				int[] vertices = this.labelVertices[label];
 				for (int i = 0; i < vertices.length; i++) {
 					int v = vertices[i];
-					this.vertexX[v] -= baseX;
-					this.vertexY[v] -= baseY;
-					this.vertexZ[v] -= baseZ;
+					this.verticesX[v] -= baseX;
+					this.verticesY[v] -= baseY;
+					this.verticesZ[v] -= baseZ;
 
 					int pitch = (x & 0xFF) * 8;
 					@Pc(227) int yaw = (y & 0xFF) * 8;
@@ -1337,32 +1361,32 @@ public class Model extends DoublyLinkable {
 					@Pc(243) int cos;
 
 					if (roll != 0) {
-						sin = Model.sin[roll];
-						cos = Model.cos[roll];
-						int x_ = this.vertexY[v] * sin + this.vertexX[v] * cos >> 16;
-						this.vertexY[v] = this.vertexY[v] * cos - this.vertexX[v] * sin >> 16;
-						this.vertexX[v] = x_;
+						sin = Model.sinTable[roll];
+						cos = Model.cosTable[roll];
+						int x_ = this.verticesY[v] * sin + this.verticesX[v] * cos >> 16;
+						this.verticesY[v] = this.verticesY[v] * cos - this.verticesX[v] * sin >> 16;
+						this.verticesX[v] = x_;
 					}
 
 					if (pitch != 0) {
-						sin = Model.sin[pitch];
-						cos = Model.cos[pitch];
-						int y_ = this.vertexY[v] * cos - this.vertexZ[v] * sin >> 16;
-						this.vertexZ[v] = this.vertexY[v] * sin + this.vertexZ[v] * cos >> 16;
-						this.vertexY[v] = y_;
+						sin = Model.sinTable[pitch];
+						cos = Model.cosTable[pitch];
+						int y_ = this.verticesY[v] * cos - this.verticesZ[v] * sin >> 16;
+						this.verticesZ[v] = this.verticesY[v] * sin + this.verticesZ[v] * cos >> 16;
+						this.verticesY[v] = y_;
 					}
 
 					if (yaw != 0) {
-						sin = Model.sin[yaw];
-						cos = Model.cos[yaw];
-						int x_ = this.vertexZ[v] * sin + this.vertexX[v] * cos >> 16;
-						this.vertexZ[v] = this.vertexZ[v] * cos - this.vertexX[v] * sin >> 16;
-						this.vertexX[v] = x_;
+						sin = Model.sinTable[yaw];
+						cos = Model.cosTable[yaw];
+						int x_ = this.verticesZ[v] * sin + this.verticesX[v] * cos >> 16;
+						this.verticesZ[v] = this.verticesZ[v] * cos - this.verticesX[v] * sin >> 16;
+						this.verticesX[v] = x_;
 					}
 
-					this.vertexX[v] += baseX;
-					this.vertexY[v] += baseY;
-					this.vertexZ[v] += baseZ;
+					this.verticesX[v] += baseX;
+					this.verticesY[v] += baseY;
+					this.verticesZ[v] += baseZ;
 				}
 			}
 		} else if (type == AnimBase.OP_SCALE) {
@@ -1376,20 +1400,20 @@ public class Model extends DoublyLinkable {
 				for (int i = 0; i < vertices.length; i++) {
 					int v = vertices[i];
 
-					this.vertexX[v] -= baseX;
-					this.vertexY[v] -= baseY;
-					this.vertexZ[v] -= baseZ;
+					this.verticesX[v] -= baseX;
+					this.verticesY[v] -= baseY;
+					this.verticesZ[v] -= baseZ;
 
-					this.vertexX[v] = this.vertexX[v] * x / 128;
-					this.vertexY[v] = this.vertexY[v] * y / 128;
-					this.vertexZ[v] = this.vertexZ[v] * z / 128;
+					this.verticesX[v] = this.verticesX[v] * x / 128;
+					this.verticesY[v] = this.verticesY[v] * y / 128;
+					this.verticesZ[v] = this.verticesZ[v] * z / 128;
 
-					this.vertexX[v] += baseX;
-					this.vertexY[v] += baseY;
-					this.vertexZ[v] += baseZ;
+					this.verticesX[v] += baseX;
+					this.verticesY[v] += baseY;
+					this.verticesZ[v] += baseZ;
 				}
 			}
-		} else if (type == AnimBase.OP_ALPHA && (this.labelFaces != null && this.faceAlpha != null)) {
+		} else if (type == AnimBase.OP_ALPHA && (this.labelFaces != null && this.faceAlphas != null)) {
 			for (int g = 0; g < labelCount; g++) {
 				int label = labels[g];
 				if (label >= this.labelFaces.length) {
@@ -1400,13 +1424,13 @@ public class Model extends DoublyLinkable {
 				for (int i = 0; i < triangles.length; i++) {
 					int t = triangles[i];
 
-					this.faceAlpha[t] += x * 8;
-					if (this.faceAlpha[t] < 0) {
-						this.faceAlpha[t] = 0;
+					this.faceAlphas[t] += x * 8;
+					if (this.faceAlphas[t] < 0) {
+						this.faceAlphas[t] = 0;
 					}
 
-					if (this.faceAlpha[t] > 255) {
-						this.faceAlpha[t] = 255;
+					if (this.faceAlphas[t] > 255) {
+						this.faceAlphas[t] = 255;
 					}
 				}
 			}
@@ -1416,37 +1440,37 @@ public class Model extends DoublyLinkable {
 	@OriginalMember(owner = "client!eb", name = "d", descriptor = "(I)V")
 	public void rotateY90() {
 		for (@Pc(6) int v = 0; v < this.vertexCount; v++) {
-			@Pc(13) int tmp = this.vertexX[v];
-			this.vertexX[v] = this.vertexZ[v];
-			this.vertexZ[v] = -tmp;
+			@Pc(13) int tmp = this.verticesX[v];
+			this.verticesX[v] = this.verticesZ[v];
+			this.verticesZ[v] = -tmp;
 		}
 	}
 
 	@OriginalMember(owner = "client!eb", name = "a", descriptor = "(BI)V")
 	public void rotateX(@OriginalArg(1) int angle) {
-		@Pc(3) int sin = Model.sin[angle];
-		@Pc(7) int cos = Model.cos[angle];
+		@Pc(3) int sin = Model.sinTable[angle];
+		@Pc(7) int cos = Model.cosTable[angle];
 		for (@Pc(9) int v = 0; v < this.vertexCount; v++) {
-			@Pc(27) int tmp = this.vertexY[v] * cos - this.vertexZ[v] * sin >> 16;
-			this.vertexZ[v] = this.vertexY[v] * sin + this.vertexZ[v] * cos >> 16;
-			this.vertexY[v] = tmp;
+			@Pc(27) int tmp = this.verticesY[v] * cos - this.verticesZ[v] * sin >> 16;
+			this.verticesZ[v] = this.verticesY[v] * sin + this.verticesZ[v] * cos >> 16;
+			this.verticesY[v] = tmp;
 		}
 	}
 
 	@OriginalMember(owner = "client!eb", name = "a", descriptor = "(IIII)V")
 	public void translate(@OriginalArg(0) int y, @OriginalArg(1) int x, @OriginalArg(3) int z) {
 		for (@Pc(11) int v = 0; v < this.vertexCount; v++) {
-			this.vertexX[v] += x;
-			this.vertexY[v] += y;
-			this.vertexZ[v] += z;
+			this.verticesX[v] += x;
+			this.verticesY[v] += y;
+			this.verticesZ[v] += z;
 		}
 	}
 
 	@OriginalMember(owner = "client!eb", name = "b", descriptor = "(II)V")
 	public void recolor(@OriginalArg(0) int src, @OriginalArg(1) int dst) {
 		for (@Pc(1) int f = 0; f < this.faceCount; f++) {
-			if (this.faceColor[f] == src) {
-				this.faceColor[f] = dst;
+			if (this.faceColors[f] == src) {
+				this.faceColors[f] = dst;
 			}
 		}
 	}
@@ -1454,22 +1478,22 @@ public class Model extends DoublyLinkable {
 	@OriginalMember(owner = "client!eb", name = "e", descriptor = "(I)V")
 	public void rotateY180() {
 		for (@Pc(3) int v = 0; v < this.vertexCount; v++) {
-			this.vertexZ[v] = -this.vertexZ[v];
+			this.verticesZ[v] = -this.verticesZ[v];
 		}
 
 		for (@Pc(21) int f = 0; f < this.faceCount; f++) {
-			int temp = this.faceVertexA[f];
-			this.faceVertexA[f] = this.faceVertexC[f];
-			this.faceVertexC[f] = temp;
+			int temp = this.faceIndicesA[f];
+			this.faceIndicesA[f] = this.faceIndicesC[f];
+			this.faceIndicesC[f] = temp;
 		}
 	}
 
 	@OriginalMember(owner = "client!eb", name = "b", descriptor = "(IIII)V")
 	public void scale(@OriginalArg(3) int x, @OriginalArg(2) int y, @OriginalArg(0) int z) {
 		for (@Pc(1) int v = 0; v < this.vertexCount; v++) {
-			this.vertexX[v] = this.vertexX[v] * x / 128;
-			this.vertexY[v] = this.vertexY[v] * y / 128;
-			this.vertexZ[v] = this.vertexZ[v] * z / 128;
+			this.verticesX[v] = this.verticesX[v] * x / 128;
+			this.verticesY[v] = this.verticesY[v] * y / 128;
+			this.verticesZ[v] = this.verticesZ[v] * z / 128;
 		}
 	}
 
@@ -1492,17 +1516,17 @@ public class Model extends DoublyLinkable {
 		}
 
 		for (int f = 0; f < this.faceCount; f++) {
-			int a = this.faceVertexA[f];
-			@Pc(78) int b = this.faceVertexB[f];
-			@Pc(83) int c = this.faceVertexC[f];
+			int a = this.faceIndicesA[f];
+			@Pc(78) int b = this.faceIndicesB[f];
+			@Pc(83) int c = this.faceIndicesC[f];
 
-			@Pc(93) int dxAB = this.vertexX[b] - this.vertexX[a];
-			@Pc(103) int dyAB = this.vertexY[b] - this.vertexY[a];
-			@Pc(113) int dzAB = this.vertexZ[b] - this.vertexZ[a];
+			@Pc(93) int dxAB = this.verticesX[b] - this.verticesX[a];
+			@Pc(103) int dyAB = this.verticesY[b] - this.verticesY[a];
+			@Pc(113) int dzAB = this.verticesZ[b] - this.verticesZ[a];
 
-			@Pc(123) int dxAC = this.vertexX[c] - this.vertexX[a];
-			@Pc(133) int dyAC = this.vertexY[c] - this.vertexY[a];
-			@Pc(143) int dzAC = this.vertexZ[c] - this.vertexZ[a];
+			@Pc(123) int dxAC = this.verticesX[c] - this.verticesX[a];
+			@Pc(133) int dyAC = this.verticesY[c] - this.verticesY[a];
+			@Pc(143) int dzAC = this.verticesZ[c] - this.verticesZ[a];
 
 			@Pc(151) int nx = dyAB * dzAC - dyAC * dzAB;
 			@Pc(159) int ny = dzAB * dxAC - dzAC * dxAB;
@@ -1521,7 +1545,7 @@ public class Model extends DoublyLinkable {
 			ny = ny * 256 / length;
 			nz = nz * 256 / length;
 
-			if (this.faceInfo == null || (this.faceInfo[f] & 0x1) == 0) {
+			if (this.faceInfos == null || (this.faceInfos[f] & 0x1) == 0) {
 				@Pc(251) VertexNormal n = this.vertexNormal[a];
 				n.x += nx;
 				n.y += ny;
@@ -1541,7 +1565,7 @@ public class Model extends DoublyLinkable {
 				n.w++;
 			} else {
 				@Pc(355) int lightness = lightAmbient + (lightSrcX * nx + lightSrcY * ny + lightSrcZ * nz) / (attenuation + attenuation / 2);
-				this.faceColorA[f] = mulColorLightness(this.faceColor[f], lightness, this.faceInfo[f]);
+				this.faceColorA[f] = mulColorLightness(this.faceColors[f], lightness, this.faceInfos[f]);
 			}
 		}
 
@@ -1569,12 +1593,12 @@ public class Model extends DoublyLinkable {
 	@OriginalMember(owner = "client!eb", name = "a", descriptor = "(IIIII)V")
 	public void applyLighting(@OriginalArg(0) int lightAmbient, @OriginalArg(1) int lightAttenuation, @OriginalArg(2) int lightSrcX, @OriginalArg(3) int lightSrcY, @OriginalArg(4) int lightSrcZ) {
 		for (@Pc(3) int f = 0; f < this.faceCount; f++) {
-			int a = this.faceVertexA[f];
-			@Pc(15) int b = this.faceVertexB[f];
-			@Pc(20) int c = this.faceVertexC[f];
+			int a = this.faceIndicesA[f];
+			@Pc(15) int b = this.faceIndicesB[f];
+			@Pc(20) int c = this.faceIndicesC[f];
 
-			if (this.faceInfo == null) {
-				int color = this.faceColor[f];
+			if (this.faceInfos == null) {
+				int color = this.faceColors[f];
 
 				VertexNormal n = this.vertexNormal[a];
 				int lightness = lightAmbient + (lightSrcX * n.x + lightSrcY * n.y + lightSrcZ * n.z) / (lightAttenuation * n.w);
@@ -1587,9 +1611,9 @@ public class Model extends DoublyLinkable {
 				n = this.vertexNormal[c];
 				lightness = lightAmbient + (lightSrcX * n.x + lightSrcY * n.y + lightSrcZ * n.z) / (lightAttenuation * n.w);
 				this.faceColorC[f] = mulColorLightness(color, lightness, 0);
-			} else if ((this.faceInfo[f] & 0x1) == 0) {
-				int color = this.faceColor[f];
-				@Pc(152) int info = this.faceInfo[f];
+			} else if ((this.faceInfos[f] & 0x1) == 0) {
+				int color = this.faceColors[f];
+				@Pc(152) int info = this.faceInfos[f];
 
 				VertexNormal n = this.vertexNormal[a];
 				int lightness = lightAmbient + (lightSrcX * n.x + lightSrcY * n.y + lightSrcZ * n.z) / (lightAttenuation * n.w);
@@ -1607,38 +1631,38 @@ public class Model extends DoublyLinkable {
 
 		this.vertexNormal = null;
 		this.vertexNormalOriginal = null;
-		this.vertexLabel = null;
-		this.faceLabel = null;
+		this.vertexLabels = null;
+		this.faceLabels = null;
 
-		if (this.faceInfo != null) {
+		if (this.faceInfos != null) {
 			for (int f = 0; f < this.faceCount; f++) {
-				if ((this.faceInfo[f] & 0x2) == 2) {
+				if ((this.faceInfos[f] & 0x2) == 2) {
 					return;
 				}
 			}
 		}
 
-		this.faceColor = null;
+		this.faceColors = null;
 	}
 
 	@OriginalMember(owner = "client!eb", name = "a", descriptor = "(IIIIIII)V")
 	public void drawSimple(@OriginalArg(0) int pitch, @OriginalArg(1) int yaw, @OriginalArg(2) int roll, @OriginalArg(3) int eyePitch, @OriginalArg(4) int eyeX, @OriginalArg(5) int eyeY, @OriginalArg(6) int eyeZ) {
 		@Pc(1) int centerX = Pix3D.centerW3D;
 		@Pc(3) int centerY = Pix3D.centerH3D;
-		@Pc(7) int sinPitch = sin[pitch];
-		@Pc(11) int cosPitch = cos[pitch];
-		@Pc(15) int sinYaw = sin[yaw];
-		@Pc(19) int cosYaw = cos[yaw];
-		@Pc(23) int sinRoll = sin[roll];
-		@Pc(27) int cosRoll = cos[roll];
-		@Pc(31) int sinEyePitch = sin[eyePitch];
-		@Pc(35) int cosEyePitch = cos[eyePitch];
+		@Pc(7) int sinPitch = sinTable[pitch];
+		@Pc(11) int cosPitch = cosTable[pitch];
+		@Pc(15) int sinYaw = sinTable[yaw];
+		@Pc(19) int cosYaw = cosTable[yaw];
+		@Pc(23) int sinRoll = sinTable[roll];
+		@Pc(27) int cosRoll = cosTable[roll];
+		@Pc(31) int sinEyePitch = sinTable[eyePitch];
+		@Pc(35) int cosEyePitch = cosTable[eyePitch];
 		@Pc(45) int midZ = eyeY * sinEyePitch + eyeZ * cosEyePitch >> 16;
 
 		for (@Pc(47) int v = 0; v < this.vertexCount; v++) {
-			@Pc(54) int x = this.vertexX[v];
-			@Pc(59) int y = this.vertexY[v];
-			@Pc(64) int z = this.vertexZ[v];
+			@Pc(54) int x = this.verticesX[v];
+			@Pc(59) int y = this.verticesY[v];
+			@Pc(64) int z = this.verticesZ[v];
 
 			@Pc(76) int temp;
 			if (roll != 0) {
@@ -1763,14 +1787,14 @@ public class Model extends DoublyLinkable {
 		int sinYaw = 0;
 		@Pc(243) int cosYaw = 0;
 		if (yaw != 0) {
-			sinYaw = sin[yaw];
-			cosYaw = cos[yaw];
+			sinYaw = sinTable[yaw];
+			cosYaw = cosTable[yaw];
 		}
 
 		for (@Pc(255) int v = 0; v < this.vertexCount; v++) {
-			@Pc(262) int x = this.vertexX[v];
-			@Pc(267) int y = this.vertexY[v];
-			@Pc(272) int z = this.vertexZ[v];
+			@Pc(262) int x = this.verticesX[v];
+			@Pc(267) int y = this.verticesY[v];
+			@Pc(272) int z = this.verticesZ[v];
 
 			@Pc(284) int temp;
 			if (yaw != 0) {
@@ -1820,10 +1844,10 @@ public class Model extends DoublyLinkable {
 		}
 
 		for (@Pc(16) int f = 0; f < this.faceCount; f++) {
-			if (this.faceInfo == null || this.faceInfo[f] != -1) {
-				int a = this.faceVertexA[f];
-				int b = this.faceVertexB[f];
-				int c = this.faceVertexC[f];
+			if (this.faceInfos == null || this.faceInfos[f] != -1) {
+				int a = this.faceIndicesA[f];
+				int b = this.faceIndicesB[f];
+				int c = this.faceIndicesC[f];
 
 				int xA = vertexScreenX[a];
 				int xB = vertexScreenX[b];
@@ -1849,7 +1873,7 @@ public class Model extends DoublyLinkable {
 			}
 		}
 
-		if (this.facePriority == null) {
+		if (this.facePriorities == null) {
 			for (int depth = this.maxDepth - 1; depth >= 0; depth--) {
 				int count = tmpDepthFaceCount[depth];
 				if (count > 0) {
@@ -1873,7 +1897,7 @@ public class Model extends DoublyLinkable {
 				@Pc(288) int[] faces = tmpDepthFaces[depth];
 				for (int i = 0; i < faceCount; i++) {
 					int priorityDepth = faces[i];
-					int priorityFace = this.facePriority[priorityDepth];
+					int priorityFace = this.facePriorities[priorityDepth];
 					int priorityFaceCount = tmpPriorityFaceCount[priorityFace]++;
 					tmpPriorityFaces[priorityFace][priorityFaceCount] = priorityDepth;
 					if (priorityFace < 10) {
@@ -2003,41 +2027,41 @@ public class Model extends DoublyLinkable {
 			return;
 		}
 
-		@Pc(14) int a = this.faceVertexA[face];
-		@Pc(19) int b = this.faceVertexB[face];
-		@Pc(24) int c = this.faceVertexC[face];
+		@Pc(14) int a = this.faceIndicesA[face];
+		@Pc(19) int b = this.faceIndicesB[face];
+		@Pc(24) int c = this.faceIndicesC[face];
 
 		Pix3D.hclip = faceClippedX[face];
 
-		if (this.faceAlpha == null) {
+		if (this.faceAlphas == null) {
 			Pix3D.trans = 0;
 		} else {
-			Pix3D.trans = this.faceAlpha[face];
+			Pix3D.trans = this.faceAlphas[face];
 		}
 
 		@Pc(45) int type;
-		if (this.faceInfo == null) {
+		if (this.faceInfos == null) {
 			type = 0;
 		} else {
-			type = this.faceInfo[face] & 0x3;
+			type = this.faceInfos[face] & 0x3;
 		}
 
 		if (type == 0) {
 			Pix3D.gouraudTriangle(vertexScreenX[a], vertexScreenX[b], vertexScreenX[c], vertexScreenY[a], vertexScreenY[b], vertexScreenY[c], this.faceColorA[face], this.faceColorB[face], this.faceColorC[face]);
 		} else if (type == 1) {
-			Pix3D.flatTriangle(vertexScreenX[a], vertexScreenX[b], vertexScreenX[c], vertexScreenY[a], vertexScreenY[b], vertexScreenY[c], palette[this.faceColorA[face]]);
+			Pix3D.flatTriangle(vertexScreenX[a], vertexScreenX[b], vertexScreenX[c], vertexScreenY[a], vertexScreenY[b], vertexScreenY[c], colourTable[this.faceColorA[face]]);
 		} else if (type == 2) {
-			int texturedFace = this.faceInfo[face] >> 2;
-			int tA = this.texturedVertexA[texturedFace];
-			int tB = this.texturedVertexB[texturedFace];
-			int tC = this.texturedVertexC[texturedFace];
-			Pix3D.textureTriangle(vertexScreenX[a], vertexScreenX[b], vertexScreenX[c], vertexScreenY[a], vertexScreenY[b], vertexScreenY[c], this.faceColorA[face], this.faceColorB[face], this.faceColorC[face], vertexViewSpaceX[tA], vertexViewSpaceY[tA], vertexViewSpaceZ[tA], vertexViewSpaceX[tB], vertexViewSpaceX[tC], vertexViewSpaceY[tB], vertexViewSpaceY[tC], vertexViewSpaceZ[tB], vertexViewSpaceZ[tC], this.faceColor[face]);
+			int texturedFace = this.faceInfos[face] >> 2;
+			int tA = this.texturePCoordinate[texturedFace];
+			int tB = this.textureMCoordinate[texturedFace];
+			int tC = this.textureNCoordinate[texturedFace];
+			Pix3D.textureTriangle(vertexScreenX[a], vertexScreenX[b], vertexScreenX[c], vertexScreenY[a], vertexScreenY[b], vertexScreenY[c], this.faceColorA[face], this.faceColorB[face], this.faceColorC[face], vertexViewSpaceX[tA], vertexViewSpaceY[tA], vertexViewSpaceZ[tA], vertexViewSpaceX[tB], vertexViewSpaceX[tC], vertexViewSpaceY[tB], vertexViewSpaceY[tC], vertexViewSpaceZ[tB], vertexViewSpaceZ[tC], this.faceColors[face]);
 		} else if (type == 3) {
-			int texturedFace = this.faceInfo[face] >> 2;
-			int tA = this.texturedVertexA[texturedFace];
-			int tB = this.texturedVertexB[texturedFace];
-			int tC = this.texturedVertexC[texturedFace];
-			Pix3D.textureTriangle(vertexScreenX[a], vertexScreenX[b], vertexScreenX[c], vertexScreenY[a], vertexScreenY[b], vertexScreenY[c], this.faceColorA[face], this.faceColorA[face], this.faceColorA[face], vertexViewSpaceX[tA], vertexViewSpaceY[tA], vertexViewSpaceZ[tA], vertexViewSpaceX[tB], vertexViewSpaceX[tC], vertexViewSpaceY[tB], vertexViewSpaceY[tC], vertexViewSpaceZ[tB], vertexViewSpaceZ[tC], this.faceColor[face]);
+			int texturedFace = this.faceInfos[face] >> 2;
+			int tA = this.texturePCoordinate[texturedFace];
+			int tB = this.textureMCoordinate[texturedFace];
+			int tC = this.textureNCoordinate[texturedFace];
+			Pix3D.textureTriangle(vertexScreenX[a], vertexScreenX[b], vertexScreenX[c], vertexScreenY[a], vertexScreenY[b], vertexScreenY[c], this.faceColorA[face], this.faceColorA[face], this.faceColorA[face], vertexViewSpaceX[tA], vertexViewSpaceY[tA], vertexViewSpaceZ[tA], vertexViewSpaceX[tB], vertexViewSpaceX[tC], vertexViewSpaceY[tB], vertexViewSpaceY[tC], vertexViewSpaceZ[tB], vertexViewSpaceZ[tC], this.faceColors[face]);
 		}
 	}
 
@@ -2047,9 +2071,9 @@ public class Model extends DoublyLinkable {
 		@Pc(5) int centerY = Pix3D.centerH3D;
 		@Pc(7) int elements = 0;
 
-		@Pc(12) int a = this.faceVertexA[face];
-		@Pc(17) int b = this.faceVertexB[face];
-		@Pc(22) int c = this.faceVertexC[face];
+		@Pc(12) int a = this.faceIndicesA[face];
+		@Pc(17) int b = this.faceIndicesB[face];
+		@Pc(22) int c = this.faceIndicesC[face];
 
 		@Pc(26) int zA = vertexViewSpaceZ[a];
 		@Pc(30) int zB = vertexViewSpaceZ[b];
@@ -2065,14 +2089,14 @@ public class Model extends DoublyLinkable {
 			int colorA = this.faceColorA[face];
 
 			if (zC >= 50) {
-				int scalar = (50 - zA) * reciprical16[zC - zA];
+				int scalar = (50 - zA) * divTable2[zC - zA];
 				clippedX[elements] = centerX + (xA + ((vertexViewSpaceX[c] - xA) * scalar >> 16) << 9) / 50;
 				clippedY[elements] = centerY + (yA + ((vertexViewSpaceY[c] - yA) * scalar >> 16) << 9) / 50;
 				clippedColor[elements++] = colorA + ((this.faceColorC[face] - colorA) * scalar >> 16);
 			}
 
 			if (zB >= 50) {
-				int scalar = (50 - zA) * reciprical16[zB - zA];
+				int scalar = (50 - zA) * divTable2[zB - zA];
 				clippedX[elements] = centerX + (xA + ((vertexViewSpaceX[b] - xA) * scalar >> 16) << 9) / 50;
 				clippedY[elements] = centerY + (yA + ((vertexViewSpaceY[b] - yA) * scalar >> 16) << 9) / 50;
 				clippedColor[elements++] = colorA + ((this.faceColorB[face] - colorA) * scalar >> 16);
@@ -2089,14 +2113,14 @@ public class Model extends DoublyLinkable {
 			int colorB = this.faceColorB[face];
 
 			if (zA >= 50) {
-				int scalar = (50 - zB) * reciprical16[zA - zB];
+				int scalar = (50 - zB) * divTable2[zA - zB];
 				clippedX[elements] = centerX + (xB + ((vertexViewSpaceX[a] - xB) * scalar >> 16) << 9) / 50;
 				clippedY[elements] = centerY + (yB + ((vertexViewSpaceY[a] - yB) * scalar >> 16) << 9) / 50;
 				clippedColor[elements++] = colorB + ((this.faceColorA[face] - colorB) * scalar >> 16);
 			}
 
 			if (zC >= 50) {
-				int scalar = (50 - zB) * reciprical16[zC - zB];
+				int scalar = (50 - zB) * divTable2[zC - zB];
 				clippedX[elements] = centerX + (xB + ((vertexViewSpaceX[c] - xB) * scalar >> 16) << 9) / 50;
 				clippedY[elements] = centerY + (yB + ((vertexViewSpaceY[c] - yB) * scalar >> 16) << 9) / 50;
 				clippedColor[elements++] = colorB + ((this.faceColorC[face] - colorB) * scalar >> 16);
@@ -2113,14 +2137,14 @@ public class Model extends DoublyLinkable {
 			int colorC = this.faceColorC[face];
 
 			if (zB >= 50) {
-				int scalar = (50 - zC) * reciprical16[zB - zC];
+				int scalar = (50 - zC) * divTable2[zB - zC];
 				clippedX[elements] = centerX + (xC + ((vertexViewSpaceX[b] - xC) * scalar >> 16) << 9) / 50;
 				clippedY[elements] = centerY + (yC + ((vertexViewSpaceY[b] - yC) * scalar >> 16) << 9) / 50;
 				clippedColor[elements++] = colorC + ((this.faceColorB[face] - colorC) * scalar >> 16);
 			}
 
 			if (zA >= 50) {
-				int scalar = (50 - zC) * reciprical16[zA - zC];
+				int scalar = (50 - zC) * divTable2[zA - zC];
 				clippedX[elements] = centerX + (xC + ((vertexViewSpaceX[a] - xC) * scalar >> 16) << 9) / 50;
 				clippedY[elements] = centerY + (yC + ((vertexViewSpaceY[a] - yC) * scalar >> 16) << 9) / 50;
 				clippedColor[elements++] = colorC + ((this.faceColorA[face] - colorC) * scalar >> 16);
@@ -2146,28 +2170,28 @@ public class Model extends DoublyLinkable {
 			}
 
 			int type;
-			if (this.faceInfo == null) {
+			if (this.faceInfos == null) {
 				type = 0;
 			} else {
-				type = this.faceInfo[face] & 0x3;
+				type = this.faceInfos[face] & 0x3;
 			}
 
 			if (type == 0) {
 				Pix3D.gouraudTriangle(x0, x1, x2, y0, y1, y2, clippedColor[0], clippedColor[1], clippedColor[2]);
 			} else if (type == 1) {
-				Pix3D.flatTriangle(x0, x1, x2, y0, y1, y2, palette[this.faceColorA[face]]);
+				Pix3D.flatTriangle(x0, x1, x2, y0, y1, y2, colourTable[this.faceColorA[face]]);
 			} else if (type == 2) {
-				int texturedFace = this.faceInfo[face] >> 2;
-				int tA = this.texturedVertexA[texturedFace];
-				int tB = this.texturedVertexB[texturedFace];
-				int tC = this.texturedVertexC[texturedFace];
-				Pix3D.textureTriangle(x0, x1, x2, y0, y1, y2, clippedColor[0], clippedColor[1], clippedColor[2], vertexViewSpaceX[tA], vertexViewSpaceY[tA], vertexViewSpaceZ[tA], vertexViewSpaceX[tB], vertexViewSpaceX[tC], vertexViewSpaceY[tB], vertexViewSpaceY[tC], vertexViewSpaceZ[tB], vertexViewSpaceZ[tC], this.faceColor[face]);
+				int texturedFace = this.faceInfos[face] >> 2;
+				int tA = this.texturePCoordinate[texturedFace];
+				int tB = this.textureMCoordinate[texturedFace];
+				int tC = this.textureNCoordinate[texturedFace];
+				Pix3D.textureTriangle(x0, x1, x2, y0, y1, y2, clippedColor[0], clippedColor[1], clippedColor[2], vertexViewSpaceX[tA], vertexViewSpaceY[tA], vertexViewSpaceZ[tA], vertexViewSpaceX[tB], vertexViewSpaceX[tC], vertexViewSpaceY[tB], vertexViewSpaceY[tC], vertexViewSpaceZ[tB], vertexViewSpaceZ[tC], this.faceColors[face]);
 			} else if (type == 3) {
-				int texturedFace = this.faceInfo[face] >> 2;
-				int tA = this.texturedVertexA[texturedFace];
-				int tB = this.texturedVertexB[texturedFace];
-				int tC = this.texturedVertexC[texturedFace];
-				Pix3D.textureTriangle(x0, x1, x2, y0, y1, y2, this.faceColorA[face], this.faceColorA[face], this.faceColorA[face], vertexViewSpaceX[tA], vertexViewSpaceY[tA], vertexViewSpaceZ[tA], vertexViewSpaceX[tB], vertexViewSpaceX[tC], vertexViewSpaceY[tB], vertexViewSpaceY[tC], vertexViewSpaceZ[tB], vertexViewSpaceZ[tC], this.faceColor[face]);
+				int texturedFace = this.faceInfos[face] >> 2;
+				int tA = this.texturePCoordinate[texturedFace];
+				int tB = this.textureMCoordinate[texturedFace];
+				int tC = this.textureNCoordinate[texturedFace];
+				Pix3D.textureTriangle(x0, x1, x2, y0, y1, y2, this.faceColorA[face], this.faceColorA[face], this.faceColorA[face], vertexViewSpaceX[tA], vertexViewSpaceY[tA], vertexViewSpaceZ[tA], vertexViewSpaceX[tB], vertexViewSpaceX[tC], vertexViewSpaceY[tB], vertexViewSpaceY[tC], vertexViewSpaceZ[tB], vertexViewSpaceZ[tC], this.faceColors[face]);
 			}
 		} else if (elements == 4) {
 			if (x0 < 0 || x1 < 0 || x2 < 0 || x0 > Pix2D.safeWidth || x1 > Pix2D.safeWidth || x2 > Pix2D.safeWidth || clippedX[3] < 0 || clippedX[3] > Pix2D.safeWidth) {
@@ -2175,33 +2199,33 @@ public class Model extends DoublyLinkable {
 			}
 
 			int type;
-			if (this.faceInfo == null) {
+			if (this.faceInfos == null) {
 				type = 0;
 			} else {
-				type = this.faceInfo[face] & 0x3;
+				type = this.faceInfos[face] & 0x3;
 			}
 
 			if (type == 0) {
 				Pix3D.gouraudTriangle(x0, x1, x2, y0, y1, y2, clippedColor[0], clippedColor[1], clippedColor[2]);
 				Pix3D.gouraudTriangle(x0, x2, clippedX[3], y0, y2, clippedY[3], clippedColor[0], clippedColor[2], clippedColor[3]);
 			} else if (type == 1) {
-				int colorA = palette[this.faceColorA[face]];
+				int colorA = colourTable[this.faceColorA[face]];
 				Pix3D.flatTriangle(x0, x1, x2, y0, y1, y2, colorA);
 				Pix3D.flatTriangle(x0, x2, clippedX[3], y0, y2, clippedY[3], colorA);
 			} else if (type == 2) {
-				int texturedFace = this.faceInfo[face] >> 2;
-				int tA = this.texturedVertexA[texturedFace];
-				int tB = this.texturedVertexB[texturedFace];
-				int tC = this.texturedVertexC[texturedFace];
-				Pix3D.textureTriangle(x0, x1, x2, y0, y1, y2, clippedColor[0], clippedColor[1], clippedColor[2], vertexViewSpaceX[tA], vertexViewSpaceY[tA], vertexViewSpaceZ[tA], vertexViewSpaceX[tB], vertexViewSpaceX[tC], vertexViewSpaceY[tB], vertexViewSpaceY[tC], vertexViewSpaceZ[tB], vertexViewSpaceZ[tC], this.faceColor[face]);
-				Pix3D.textureTriangle(x0, x2, clippedX[3], y0, y2, clippedY[3], clippedColor[0], clippedColor[2], clippedColor[3], vertexViewSpaceX[tA], vertexViewSpaceY[tA], vertexViewSpaceZ[tA], vertexViewSpaceX[tB], vertexViewSpaceX[tC], vertexViewSpaceY[tB], vertexViewSpaceY[tC], vertexViewSpaceZ[tB], vertexViewSpaceZ[tC], this.faceColor[face]);
+				int texturedFace = this.faceInfos[face] >> 2;
+				int tA = this.texturePCoordinate[texturedFace];
+				int tB = this.textureMCoordinate[texturedFace];
+				int tC = this.textureNCoordinate[texturedFace];
+				Pix3D.textureTriangle(x0, x1, x2, y0, y1, y2, clippedColor[0], clippedColor[1], clippedColor[2], vertexViewSpaceX[tA], vertexViewSpaceY[tA], vertexViewSpaceZ[tA], vertexViewSpaceX[tB], vertexViewSpaceX[tC], vertexViewSpaceY[tB], vertexViewSpaceY[tC], vertexViewSpaceZ[tB], vertexViewSpaceZ[tC], this.faceColors[face]);
+				Pix3D.textureTriangle(x0, x2, clippedX[3], y0, y2, clippedY[3], clippedColor[0], clippedColor[2], clippedColor[3], vertexViewSpaceX[tA], vertexViewSpaceY[tA], vertexViewSpaceZ[tA], vertexViewSpaceX[tB], vertexViewSpaceX[tC], vertexViewSpaceY[tB], vertexViewSpaceY[tC], vertexViewSpaceZ[tB], vertexViewSpaceZ[tC], this.faceColors[face]);
 			} else if (type == 3) {
-				int texturedFace = this.faceInfo[face] >> 2;
-				int tA = this.texturedVertexA[texturedFace];
-				int tB = this.texturedVertexB[texturedFace];
-				int tC = this.texturedVertexC[texturedFace];
-				Pix3D.textureTriangle(x0, x1, x2, y0, y1, y2, this.faceColorA[face], this.faceColorA[face], this.faceColorA[face], vertexViewSpaceX[tA], vertexViewSpaceY[tA], vertexViewSpaceZ[tA], vertexViewSpaceX[tB], vertexViewSpaceX[tC], vertexViewSpaceY[tB], vertexViewSpaceY[tC], vertexViewSpaceZ[tB], vertexViewSpaceZ[tC], this.faceColor[face]);
-				Pix3D.textureTriangle(x0, x2, clippedX[3], y0, y2, clippedY[3], this.faceColorA[face], this.faceColorA[face], this.faceColorA[face], vertexViewSpaceX[tA], vertexViewSpaceY[tA], vertexViewSpaceZ[tA], vertexViewSpaceX[tB], vertexViewSpaceX[tC], vertexViewSpaceY[tB], vertexViewSpaceY[tC], vertexViewSpaceZ[tB], vertexViewSpaceZ[tC], this.faceColor[face]);
+				int texturedFace = this.faceInfos[face] >> 2;
+				int tA = this.texturePCoordinate[texturedFace];
+				int tB = this.textureMCoordinate[texturedFace];
+				int tC = this.textureNCoordinate[texturedFace];
+				Pix3D.textureTriangle(x0, x1, x2, y0, y1, y2, this.faceColorA[face], this.faceColorA[face], this.faceColorA[face], vertexViewSpaceX[tA], vertexViewSpaceY[tA], vertexViewSpaceZ[tA], vertexViewSpaceX[tB], vertexViewSpaceX[tC], vertexViewSpaceY[tB], vertexViewSpaceY[tC], vertexViewSpaceZ[tB], vertexViewSpaceZ[tC], this.faceColors[face]);
+				Pix3D.textureTriangle(x0, x2, clippedX[3], y0, y2, clippedY[3], this.faceColorA[face], this.faceColorA[face], this.faceColorA[face], vertexViewSpaceX[tA], vertexViewSpaceY[tA], vertexViewSpaceZ[tA], vertexViewSpaceX[tB], vertexViewSpaceX[tC], vertexViewSpaceY[tB], vertexViewSpaceY[tC], vertexViewSpaceZ[tB], vertexViewSpaceZ[tC], this.faceColors[face]);
 			}
 		}
 	}
@@ -2235,22 +2259,22 @@ public class Model extends DoublyLinkable {
 		public int vertexFlagsOffset;
 
 		@OriginalMember(owner = "client!l", name = "e", descriptor = "I")
-		public int vertexXOffset;
+		public int verticesXOffset;
 
 		@OriginalMember(owner = "client!l", name = "f", descriptor = "I")
-		public int vertexYOffset;
+		public int verticesYOffset;
 
 		@OriginalMember(owner = "client!l", name = "g", descriptor = "I")
-		public int vertexZOffset;
+		public int verticesZOffset;
 
 		@OriginalMember(owner = "client!l", name = "h", descriptor = "I")
 		public int vertexLabelsOffset;
 
 		@OriginalMember(owner = "client!l", name = "i", descriptor = "I")
-		public int faceVerticesOffset;
+		public int faceIndicesOffset;
 
 		@OriginalMember(owner = "client!l", name = "j", descriptor = "I")
-		public int faceOrientationsOffset;
+		public int faceIndicesFlagsOffset;
 
 		@OriginalMember(owner = "client!l", name = "k", descriptor = "I")
 		public int faceColorsOffset;
@@ -2268,7 +2292,7 @@ public class Model extends DoublyLinkable {
 		public int faceLabelsOffset;
 
 		@OriginalMember(owner = "client!l", name = "p", descriptor = "I")
-		public int faceTextureAxisOffset;
+		public int projectionPlanePointsOffset;
 	}
 
 	@OriginalClass("client!n")

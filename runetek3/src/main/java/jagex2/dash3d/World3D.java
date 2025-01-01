@@ -273,10 +273,10 @@ public class World3D {
 		@Pc(28) boolean[][][][] matrix = new boolean[9][32][53][53];
 		for (@Pc(30) int pitch = 128; pitch <= 384; pitch += 32) {
 			for (int yaw = 0; yaw < 2048; yaw += 64) {
-				sinEyePitch = Model.sin[pitch];
-				cosEyePitch = Model.cos[pitch];
-				sinEyeYaw = Model.sin[yaw];
-				cosEyeYaw = Model.cos[yaw];
+				sinEyePitch = Model.sinTable[pitch];
+				cosEyePitch = Model.cosTable[pitch];
+				sinEyeYaw = Model.sinTable[yaw];
+				cosEyeYaw = Model.cosTable[yaw];
 
 				int pitchLevel = (pitch - 128) / 32;
 				int yawLevel = yaw / 64;
@@ -1054,24 +1054,24 @@ public class World3D {
 		this.tmpMergeIndex++;
 
 		@Pc(9) int merged = 0;
-		@Pc(12) int[] vertexX = modelB.vertexX;
+		@Pc(12) int[] vertexX = modelB.verticesX;
 		@Pc(15) int vertexCountB = modelB.vertexCount;
 
 		for (@Pc(17) int vertexA = 0; vertexA < modelA.vertexCount; vertexA++) {
 			@Pc(24) Model.VertexNormal normalA = modelA.vertexNormal[vertexA];
 			@Pc(29) Model.VertexNormal originalNormalA = modelA.vertexNormalOriginal[vertexA];
 			if (originalNormalA.w != 0) {
-				@Pc(39) int y = modelA.vertexY[vertexA] - offsetY;
+				@Pc(39) int y = modelA.verticesY[vertexA] - offsetY;
 				if (y > modelB.minY) {
 					continue;
 				}
 
-				@Pc(50) int x = modelA.vertexX[vertexA] - offsetX;
+				@Pc(50) int x = modelA.verticesX[vertexA] - offsetX;
 				if (x < modelB.minX || x > modelB.maxX) {
 					continue;
 				}
 
-				@Pc(66) int z = modelA.vertexZ[vertexA] - offsetZ;
+				@Pc(66) int z = modelA.verticesZ[vertexA] - offsetZ;
 				if (z < modelB.minZ || z > modelB.maxZ) {
 					continue;
 				}
@@ -1079,7 +1079,7 @@ public class World3D {
 				for (@Pc(77) int vertexB = 0; vertexB < vertexCountB; vertexB++) {
 					@Pc(84) Model.VertexNormal normalB = modelB.vertexNormal[vertexB];
 					@Pc(89) Model.VertexNormal originalNormalB = modelB.vertexNormalOriginal[vertexB];
-					if (x != vertexX[vertexB] || z != modelB.vertexZ[vertexB] || y != modelB.vertexY[vertexB] || originalNormalB.w == 0) {
+					if (x != vertexX[vertexB] || z != modelB.verticesZ[vertexB] || y != modelB.verticesY[vertexB] || originalNormalB.w == 0) {
 						continue;
 					}
 
@@ -1103,14 +1103,14 @@ public class World3D {
 		}
 
 		for (@Pc(195) int i = 0; i < modelA.faceCount; i++) {
-			if (this.mergeIndexA[modelA.faceVertexA[i]] == this.tmpMergeIndex && this.mergeIndexA[modelA.faceVertexB[i]] == this.tmpMergeIndex && this.mergeIndexA[modelA.faceVertexC[i]] == this.tmpMergeIndex) {
-				modelA.faceInfo[i] = -1;
+			if (this.mergeIndexA[modelA.faceIndicesA[i]] == this.tmpMergeIndex && this.mergeIndexA[modelA.faceIndicesB[i]] == this.tmpMergeIndex && this.mergeIndexA[modelA.faceIndicesC[i]] == this.tmpMergeIndex) {
+				modelA.faceInfos[i] = -1;
 			}
 		}
 
 		for (@Pc(239) int i = 0; i < modelB.faceCount; i++) {
-			if (this.mergeIndexB[modelB.faceVertexA[i]] == this.tmpMergeIndex && this.mergeIndexB[modelB.faceVertexB[i]] == this.tmpMergeIndex && this.mergeIndexB[modelB.faceVertexC[i]] == this.tmpMergeIndex) {
-				modelB.faceInfo[i] = -1;
+			if (this.mergeIndexB[modelB.faceIndicesA[i]] == this.tmpMergeIndex && this.mergeIndexB[modelB.faceIndicesB[i]] == this.tmpMergeIndex && this.mergeIndexB[modelB.faceIndicesC[i]] == this.tmpMergeIndex) {
+				modelB.faceInfos[i] = -1;
 			}
 		}
 	}
@@ -1210,10 +1210,10 @@ public class World3D {
 		}
 
 		cycle++;
-		sinEyePitch = Model.sin[eyePitch];
-		cosEyePitch = Model.cos[eyePitch];
-		sinEyeYaw = Model.sin[eyeYaw];
-		cosEyeYaw = Model.cos[eyeYaw];
+		sinEyePitch = Model.sinTable[eyePitch];
+		cosEyePitch = Model.cosTable[eyePitch];
+		sinEyeYaw = Model.sinTable[eyeYaw];
+		cosEyeYaw = Model.cosTable[eyeYaw];
 
 		visibilityMap = visibilityMatrix[(eyePitch - 128) / 32][eyeYaw / 64];
 		World3D.eyeX = eyeX;

@@ -552,7 +552,7 @@ public class Component {
 			return null;
 		}
 
-		if (primaryFrame == -1 && secondaryFrame == -1 && m.faceColor == null) {
+		if (primaryFrame == -1 && secondaryFrame == -1 && m.faceColors == null) {
 			return m;
 		}
 
